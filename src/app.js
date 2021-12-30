@@ -14,8 +14,8 @@ const client = new tmi.Client(options)
 client.connect();
 
 var isCroupierActive = false
-var croupierDurationTime = 20000; //2 seconds
-var croupierParticipants = new Array();
+var croupierDurationTime = 20000 //2 seconds
+var croupierParticipants = new Array()
 const CroupierStartCommand = '!croupierstart'
 const CroupierJoinCommand = '!croupier'
 
@@ -25,13 +25,14 @@ client.on('message', (channel, tags, message, self) => {
 
     //Launch roll event
     if(!isCroupierActive && message.toLowerCase() === CroupierStartCommand) {
+        croupierParticipants = new Array()
         isCroupierActive = true
         client.say(channel, `Le Croupier ouvre boutique. Lancez vos dés avec la commande `+CroupierJoinCommand)
         //Close roll event after croupierDurationTime
         setTimeout(function(){
             //Choose winner if participants
             if(croupierParticipants.length > 0) {
-                var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length));
+                var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length))
                 client.say(channel, `@${croupierParticipants[winnerPosition].name} Ton dé est choisi : ${croupierParticipants[winnerPosition].roll}`)
             }
             else {
@@ -47,10 +48,10 @@ client.on('message', (channel, tags, message, self) => {
     //Detect join commands
     if(isCroupierActive && message.toLowerCase() === CroupierJoinCommand) {
         //Join if not already joined
-        var alreadyRolled = false;
+        var alreadyRolled = false
         croupierParticipants.forEach(function(participant){
             if(participant.name.toLowerCase() === tags.username.toLowerCase()) {
-                alreadyRolled = true;
+                alreadyRolled = true
             }
         })
         if(!alreadyRolled) {
