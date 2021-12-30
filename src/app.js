@@ -29,9 +29,17 @@ client.on('message', (channel, tags, message, self) => {
         client.say(channel, `Le Croupier ouvre boutique. Lancez vos dés avec la commande `+CroupierJoinCommand)
         //Close roll event after croupierDurationTime
         setTimeout(function(){
-            //Choose winner
-            var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length));
-            client.say(channel, `@${croupierParticipants[winnerPosition].name} Ton dé est choisi : ${croupierParticipants[winnerPosition].roll}`)
+            //Choose winner if participants
+            if(croupierParticipants.length > 0) {
+                var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length));
+                client.say(channel, `@${croupierParticipants[winnerPosition].name} Ton dé est choisi : ${croupierParticipants[winnerPosition].roll}`)
+            }
+            else {
+                var min = Math.ceil(1)
+                var max = Math.floor(20)
+                var diceResult = Math.floor(Math.random() * (max - min +1)) + min
+                client.say(channel, `Aucun participant. Un dé est lancé : ${diceResult}`)
+            }
             isCroupierActive = false
         }, croupierDurationTime)
     }
