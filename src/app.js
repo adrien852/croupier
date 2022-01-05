@@ -24,25 +24,27 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
 
     //Launch roll event
-    if(!isCroupierActive && message.toLowerCase() === CroupierStartCommand) {
-        croupierParticipants = new Array()
-        isCroupierActive = true
-        client.say(channel, `Osez affronter votre destinée! Lancez vos dés avec la commande `+CroupierJoinCommand)
-        //Close roll event after croupierDurationTime
-        setTimeout(function(){
-            //Choose winner if participants
-            if(croupierParticipants.length > 0) {
-                var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length))
-                client.say(channel, `"Alea jacta est"! La fatallité a choisi @${croupierParticipants[winnerPosition].name}. Le résultat est : ${croupierParticipants[winnerPosition].roll}`)
-            }
-            else {
-                var min = Math.ceil(1)
-                var max = Math.floor(100)
-                var diceResult = Math.floor(Math.random() * (max - min +1)) + min
-                client.say(channel, `Votre destin vous échappe. Un dé est lancé : ${diceResult}`)
-            }
-            isCroupierActive = false
-        }, croupierDurationTime)
+    if(tags.username.toLowerCase() == process.env.CHANNEL_NAME.toLowerCase()){
+        if(!isCroupierActive && message.toLowerCase() === CroupierStartCommand) {
+            croupierParticipants = new Array()
+            isCroupierActive = true
+            client.say(channel, `Osez affronter votre destinée ! Lancez vos dés avec la commande `+CroupierJoinCommand)
+            //Close roll event after croupierDurationTime
+            setTimeout(function(){
+                //Choose winner if participants
+                if(croupierParticipants.length > 0) {
+                    var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length))
+                    client.say(channel, `"Alea jacta est" ! La fatallité a choisi @${croupierParticipants[winnerPosition].name}. Le résultat est : ${croupierParticipants[winnerPosition].roll}`)
+                }
+                else {
+                    var min = Math.ceil(1)
+                    var max = Math.floor(100)
+                    var diceResult = Math.floor(Math.random() * (max - min +1)) + min
+                    client.say(channel, `Votre destin vous échappe. Un dé est lancé : ${diceResult}`)
+                }
+                isCroupierActive = false
+            }, croupierDurationTime)
+        }
     }
 
     //Detect join commands
