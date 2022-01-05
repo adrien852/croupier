@@ -24,7 +24,7 @@ client.on('message', (channel, tags, message, self) => {
 	if(self) return;
 
     //Launch roll event
-    if(tags.username.toLowerCase() == process.env.CHANNEL_NAME.toLowerCase()){
+    if(tags.mod || tags.username.toLowerCase() == process.env.CHANNEL_NAME.toLowerCase()){
         if(!isCroupierActive && message.toLowerCase() === CroupierStartCommand) {
             croupierParticipants = new Array()
             isCroupierActive = true
