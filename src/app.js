@@ -14,10 +14,10 @@ const client = new tmi.Client(options)
 client.connect();
 
 var isCroupierActive = false
-var croupierDurationTime = 20000 //2 seconds
+var croupierDurationTime = 20000 //20 seconds
 var croupierParticipants = new Array()
-const CroupierStartCommand = '!croupierstart'
-const CroupierJoinCommand = '!croupier'
+const CroupierStartCommand = '!croupier'
+const CroupierJoinCommand = '!roll'
 
 client.on('message', (channel, tags, message, self) => {
 	// Ignore echoed messages.
@@ -27,19 +27,19 @@ client.on('message', (channel, tags, message, self) => {
     if(!isCroupierActive && message.toLowerCase() === CroupierStartCommand) {
         croupierParticipants = new Array()
         isCroupierActive = true
-        client.say(channel, `Le Croupier ouvre boutique. Lancez vos dés avec la commande `+CroupierJoinCommand)
+        client.say(channel, `Osez affronter votre destinée! Lancez vos dés avec la commande `+CroupierJoinCommand)
         //Close roll event after croupierDurationTime
         setTimeout(function(){
             //Choose winner if participants
             if(croupierParticipants.length > 0) {
                 var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length))
-                client.say(channel, `@${croupierParticipants[winnerPosition].name} Ton dé est choisi : ${croupierParticipants[winnerPosition].roll}`)
+                client.say(channel, `"Alea jacta est"! La fatallité a choisi @${croupierParticipants[winnerPosition].name}. Le résultat est : ${croupierParticipants[winnerPosition].roll}`)
             }
             else {
                 var min = Math.ceil(1)
-                var max = Math.floor(20)
+                var max = Math.floor(100)
                 var diceResult = Math.floor(Math.random() * (max - min +1)) + min
-                client.say(channel, `Aucun participant. Un dé est lancé : ${diceResult}`)
+                client.say(channel, `Votre destin vous échappe. Un dé est lancé : ${diceResult}`)
             }
             isCroupierActive = false
         }, croupierDurationTime)
@@ -55,9 +55,9 @@ client.on('message', (channel, tags, message, self) => {
             }
         })
         if(!alreadyRolled) {
-            //Generate a RNG from 1 to 20
+            //Generate a RNG from 1 to 100
             var min = Math.ceil(1)
-            var max = Math.floor(20)
+            var max = Math.floor(100)
             var diceResult = Math.floor(Math.random() * (max - min +1)) + min
             
             //Save the RNG in list
