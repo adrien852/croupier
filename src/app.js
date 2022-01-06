@@ -14,7 +14,7 @@ const client = new tmi.Client(options)
 client.connect();
 
 var isCroupierActive = false
-var croupierDurationTime = 20000 //20 seconds
+var croupierDurationTime = 23000 //20 seconds
 var croupierParticipants = new Array()
 const CroupierStartCommand = '!croupier'
 const CroupierJoinCommand = '!roll'
@@ -34,7 +34,7 @@ client.on('message', (channel, tags, message, self) => {
                 //Choose winner if participants
                 if(croupierParticipants.length > 0) {
                     var winnerPosition = Math.floor(Math.random() * (croupierParticipants.length))
-                    client.say(channel, `"Alea jacta est" ! La fatallité a choisi @${croupierParticipants[winnerPosition].name}. Le résultat est : ${croupierParticipants[winnerPosition].roll}`)
+                    client.say(channel, `"Alea jacta est" ! La fatalité a choisi @${croupierParticipants[winnerPosition].name}. Le résultat est : ${croupierParticipants[winnerPosition].roll}`)
                 }
                 else {
                     var min = Math.ceil(1)
